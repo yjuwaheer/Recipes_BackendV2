@@ -128,6 +128,16 @@ export const searchRecipes = async (req: Request, res: Response) => {
   }
 };
 
-export const getRandomRecipes = (req: Request, res: Response) => {
-  res.json({ msg: "Random" });
+export const getRandomRecipes = async (req: Request, res: Response) => {
+  try {
+    const recipes = await Recipe.createQueryBuilder()
+      .select()
+      .orderBy("RANDOM()")
+      .limit(1)
+      .getMany();
+
+    res.status(200).json(recipes);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };
