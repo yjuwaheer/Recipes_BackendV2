@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import { Recipe } from "../entities/recipe.entity";
 import { IRecipe } from "../entities/recipe.entity";
-import { ILike, Like } from "typeorm";
-import { title } from "process";
 
 export const getAllRecipes = async (req: Request, res: Response) => {
+  let page = Number(req.query.page);
+
+  if (!page) {
+    page = 1;
+  }
+
   try {
-    const recipes: IRecipe[] = await Recipe.find({});
+    const recipes = await Recipe.find({ skip: page - 1, take: 5 });
 
     res.status(200).json(recipes);
   } catch (error) {
@@ -120,6 +124,7 @@ export const searchRecipes = async (req: Request, res: Response) => {
       .orWhere("ARRAY_TO_STRING(ingredients, ',') ILIKE :search", {
         search: `%${search}%`,
       })
+      .limit(25)
       .getMany();
 
     res.status(200).json(recipes);
