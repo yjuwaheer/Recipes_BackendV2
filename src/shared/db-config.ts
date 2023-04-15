@@ -2,14 +2,7 @@ import { DataSource } from "typeorm";
 import { Recipe } from "../entities/recipe.entity";
 import path from "path";
 import fs from "fs";
-
-interface IRecipe {
-  title: string;
-  ingredients: string[];
-  instructions: { type: string; text: string }[];
-  times: string[];
-  image: string;
-}
+import { IRecipe } from "../entities/recipe.entity";
 
 const AppDataSource = new DataSource({
   type: "postgres",

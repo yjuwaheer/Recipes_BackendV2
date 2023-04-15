@@ -1,5 +1,13 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from "typeorm";
 
+export interface IRecipe {
+  title: string;
+  ingredients: string[];
+  instructions: { type: string; text: string }[];
+  times: string[];
+  image: string;
+}
+
 @Entity()
 export class Recipe extends BaseEntity {
   @PrimaryGeneratedColumn()

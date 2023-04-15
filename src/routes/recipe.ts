@@ -13,16 +13,16 @@ const router: Router = Router();
 
 router.get("/", getAllRecipes);
 
-router.get("/:id", getARecipe);
-
 router.post("/", createARecipe);
 
-router.put("/:id", updateARecipe);
+router.put("/", updateARecipe);
 
-router.delete("/:id", deleteARecipe);
+router.delete("/", deleteARecipe);
 
 router.get("/search", searchRecipes);
 
-router.get("random", getRandomRecipes);
+router.get("/random", getRandomRecipes);
+
+router.get("/:id", getARecipe);
 
 export default router;
