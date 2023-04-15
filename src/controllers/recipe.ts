@@ -3,14 +3,25 @@ import { Recipe } from "../entities/recipe.entity";
 import { IRecipe } from "../entities/recipe.entity";
 
 export const getAllRecipes = async (req: Request, res: Response) => {
-  let page = Number(req.query.page);
+  let pageQuery = Number(req.query.page);
+  const sortQuery = Number(req.query.sort);
+  let sort: "ASC" | "DESC" | undefined = "ASC";
+  const itemsPerPage = 5;
 
-  if (!page) {
-    page = 1;
+  if (!pageQuery) {
+    pageQuery = 1;
   }
 
+  // Sorting
+  sort = sortQuery === 1 ? "DESC" : "ASC";
+
   try {
-    const recipes = await Recipe.find({ skip: page - 1, take: 5 });
+    const recipes = await Recipe.createQueryBuilder()
+      .select()
+      .skip((pageQuery - 1) * itemsPerPage)
+      .take(itemsPerPage)
+      .orderBy("ARRAY_LENGTH(ingredients, 1)", sort)
+      .getMany();
 
     res.status(200).json(recipes);
   } catch (error) {
