@@ -3,14 +3,19 @@ import { Recipe } from "../entities/recipe.entity";
 import path from "path";
 import fs from "fs";
 import { IRecipe } from "../entities/recipe.entity";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const portNumber: number = Number(process.env.DB_PORT || "") || 5432;
 
 const AppDataSource = new DataSource({
   type: "postgres",
-  host: "localhost",
-  port: 5432,
-  username: "postgres",
-  password: "admin",
-  database: "recipes",
+  host: process.env.DB_HOST,
+  port: portNumber,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   entities: [Recipe],
   synchronize: true,
   logging: false,
@@ -20,8 +25,6 @@ export const initializeDB = async () => {
   try {
     await AppDataSource.initialize();
     console.log("DB initialized");
-
-    // populateDB();
   } catch (error) {
     console.log("Failed to initialize DB, ", error);
   }
@@ -35,7 +38,7 @@ export const populateDB = async () => {
   try {
     console.log("Populating DB");
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < recipes.length; i++) {
       const recipe = Recipe.create({
         title: recipes[i].title,
         ingredients: recipes[i].ingredients,
