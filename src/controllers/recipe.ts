@@ -6,7 +6,7 @@ export const getAllRecipes = async (req: Request, res: Response) => {
   let pageQuery = Number(req.query.page);
   const sortQuery = Number(req.query.sort);
   let sort: "ASC" | "DESC" | undefined = "ASC";
-  const itemsPerPage = 50;
+  const itemsPerPage = 51;
 
   if (!pageQuery) {
     pageQuery = 1;

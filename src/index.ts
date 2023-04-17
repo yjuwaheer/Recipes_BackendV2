@@ -1,6 +1,7 @@
 import express, { Request, Response, Express } from "express";
 import dotenv from "dotenv";
 import "reflect-metadata";
+import cors from "cors";
 import { initializeDB } from "./shared/db-config";
 
 import RecipeRouter from "./routes/recipe";
@@ -10,6 +11,7 @@ const PORT: number = 5000;
 dotenv.config();
 
 const app: Express = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
