@@ -122,10 +122,10 @@ export const deleteARecipe = async (req: Request, res: Response) => {
 };
 
 export const searchRecipes = async (req: Request, res: Response) => {
-  const search: string = req.body.search;
+  const search = req.query.search;
 
   if (!search) {
-    return res.status(400).json({ message: "Invalid body format" });
+    return res.status(400).json({ message: "Invalid query format" });
   }
 
   try {
@@ -135,7 +135,7 @@ export const searchRecipes = async (req: Request, res: Response) => {
       .orWhere("ARRAY_TO_STRING(ingredients, ',') ILIKE :search", {
         search: `%${search}%`,
       })
-      .limit(25)
+      .limit(24)
       .getMany();
 
     res.status(200).json(recipes);
