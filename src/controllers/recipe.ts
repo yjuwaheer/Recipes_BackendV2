@@ -46,7 +46,7 @@ export const getARecipe = async (req: Request, res: Response) => {
 export const createARecipe = async (req: Request, res: Response) => {
   const { title, ingredients, instructions, times, image }: IRecipe = req.body;
 
-  if (!title || !ingredients || !instructions || !times || !image) {
+  if (!title || !ingredients || !instructions) {
     return res.status(400).json({ message: "Invalid body format" });
   }
 
@@ -70,7 +70,7 @@ export const updateARecipe = async (req: Request, res: Response) => {
   const id: number = req.body.id;
   const { title, ingredients, instructions, times, image }: IRecipe = req.body;
 
-  if (!id || !title || !ingredients || !instructions || !times || !image) {
+  if (!id || !title || !ingredients || !instructions) {
     return res.status(400).json({ message: "Invalid body format" });
   }
 
